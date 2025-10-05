@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BB Solutions - Dijital Problemlerinize Gerçek Çözümler</title>
+    <meta name="description" content="Modern teknolojilerle yazılım geliştirme. Dashboard, mobil uygulama, sistem entegrasyonu, otomasyon çözümleri. İstanbul.">
+    <meta name="keywords" content="yazılım geliştirme, istanbul, mobil uygulama, dashboard, sistem entegrasyonu">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#1945b3',
+                        'background-light': '#f6f6f8',
+                        'background-dark': '#111621',
+                    },
+                    fontFamily: {
+                        display: ['Inter', 'sans-serif']
+                    },
+                    borderRadius: {
+                        DEFAULT: '0.25rem',
+                        lg: '0.5rem',
+                        xl: '0.75rem',
+                        full: '9999px'
+                    },
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .fade-in {
+            animation: fadeIn 0.6s ease-out forwards;
+            opacity: 0;
+        }
+        
+        .stagger-1 { animation-delay: 100ms; }
+        .stagger-2 { animation-delay: 200ms; }
+        .stagger-3 { animation-delay: 300ms; }
+        .stagger-4 { animation-delay: 400ms; }
+        .stagger-5 { animation-delay: 500ms; }
+        .stagger-6 { animation-delay: 600ms; }
+        
+        @keyframes subtle-pan {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+        
+        .bg-pan-slow {
+            animation: subtle-pan 30s ease-in-out infinite;
+            background-size: 200% 200%;
+        }
+        
+        .gradient-mask {
+            mask-image: linear-gradient(to top, transparent 0%, black 20%, black 80%, transparent 100%);
+        }
+        
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        [lang="en"] .tr-only { display: none; }
+        [lang="tr"] .en-only { display: none; }
+    </style>
+</head>
+
+<body class="bg-background-light dark:bg-background-dark font-display text-gray-800 dark:text-gray-200">
+    
+    <!-- Language Toggle (Fixed) -->
+    <div class="fixed top-4 right-4 z-50">
+        <button onclick="toggleLanguage()" class="rounded-lg bg-white dark:bg-background-dark border-2 border-primary px-4 py-2 text-sm font-semibold text-primary hover:bg-primary hover:text-white transition-all duration-300 shadow-lg">
+            <span class="tr-only">EN</span>
+            <span class="en-only">TR</span>
+        </button>
+    </div>
+
+    <!-- HERO SECTION -->
+    <main class="relative flex min-h-screen flex-col items-center justify-center overflow-hidden">
+        <div class="absolute inset-0 bg-gradient-to-br from-primary/10 via-background-light to-primary/5 bg-pan-slow"></div>
+        
+        <div class="relative z-10 px-4 text-center max-w-5xl mx-auto">
+            <!-- Logo/Company Name -->
+            <div class="mb-10">
+                <img src="logo.png" alt="BB Solutions Logo" class="h-32 w-32 mx-auto mb-6 object-contain" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                <svg class="h-32 w-32 mx-auto text-primary mb-6" style="display:none;" fill="none" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M13.8261 17.4264C16.7203 18.1174 20.2244 18.5217 24 18.5217C27.7756 18.5217 31.2797 18.1174 34.1739 17.4264C36.9144 16.7722 39.9967 15.2331 41.3563 14.1648L24.8486 40.6391C24.4571 41.267 23.5429 41.267 23.1514 40.6391L6.64374 14.1648C8.00331 15.2331 11.0856 16.7722 13.8261 17.4264Z" fill="currentColor"/>
+                    <path clip-rule="evenodd" d="M39.998 12.236C39.9944 12.2537 39.9875 12.2845 39.9748 12.3294C39.9436 12.4399 39.8949 12.5741 39.8346 12.7175C39.8168 12.7597 39.7989 12.8007 39.7813 12.8398C38.5103 13.7113 35.9788 14.9393 33.7095 15.4811C30.9875 16.131 27.6413 16.5217 24 16.5217C20.3587 16.5217 17.0125 16.131 14.2905 15.4811C12.0012 14.9346 9.44505 13.6897 8.18538 12.8168C8.17384 12.7925 8.16216 12.767 8.15052 12.7408C8.09919 12.6249 8.05721 12.5114 8.02977 12.411C8.00356 12.3152 8.00039 12.2667 8.00004 12.2612C8.00004 12.261 8 12.2607 8.00004 12.2612C8.00004 12.2359 8.0104 11.9233 8.68485 11.3686C9.34546 10.8254 10.4222 10.2469 11.9291 9.72276C14.9242 8.68098 19.1919 8 24 8C28.8081 8 33.0758 8.68098 36.0709 9.72276C37.5778 10.2469 38.6545 10.8254 39.3151 11.3686C39.9006 11.8501 39.9857 12.1489 39.998 12.236Z" fill="currentColor" fill-rule="evenodd"/>
+                </svg>
+                <h1 class="text-4xl md:text-5xl font-black text-gray-900 dark:text-white mb-3">BB Solutions</h1>
+                <p class="text-2xl md:text-3xl text-primary font-bold mb-8 tr-only">Hızlı, Atik, Güvenli</p>
+                <p class="text-2xl md:text-3xl text-primary font-bold mb-8 en-only">Fast, Agile, Secure</p>
+            </div>
+            
+            <!-- Main Headline -->
+            <h2 class="text-3xl md:text-4xl lg:text-5xl font-bold leading-tight tracking-tight text-gray-900 dark:text-white mb-6 tr-only">
+                Dijital Problemlerinize<br/>Gerçek Çözümler
+            </h2>
+            <h2 class="text-3xl md:text-4xl lg:text-5xl font-bold leading-tight tracking-tight text-gray-900 dark:text-white mb-6 en-only">
+                Real Solutions to Your<br/>Digital Problems
+            </h2>
+            
+            <!-- Subheadline -->
+            <p class="text-xl md:text-2xl text-gray-600 dark:text-gray-400 max-w-3xl mx-auto mb-12 tr-only">
+                Problem analizinden production'a. Modern teknolojilerle iş problemlerinizi çözüyoruz.
+            </p>
+            <p class="text-xl md:text-2xl text-gray-600 dark:text-gray-400 max-w-3xl mx-auto mb-12 en-only">
+                From problem analysis to production. We solve your business problems with modern technology.
+            </p>
+            
+            <!-- CTA Buttons -->
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <a href="#services" class="inline-flex h-14 items-center justify-center rounded-lg bg-primary px-8 text-base font-semibold text-white shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-xl">
+                    <span class="tr-only">Hizmetlerimiz</span>
+                    <span class="en-only">Our Services</span>
+                </a>
+                <a href="#contact" class="inline-flex h-14 items-center justify-center rounded-lg bg-white dark:bg-gray-800 border-2 border-primary px-8 text-base font-semibold text-primary hover:bg-primary hover:text-white transition-all duration-300 shadow-lg hover:scale-105">
+                    <span class="tr-only">İletişime Geçin</span>
+                    <span class="en-only">Get In Touch</span>
+                </a>
+            </div>
+        </div>
+        
+        <!-- Scroll Indicator -->
+        <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
+            <svg class="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
+            </svg>
+        </div>
+    </main>
+
+    <!-- SERVICES SECTION - BENTO GRID -->
+    <section id="services" class="py-20 px-4 sm:px-6 lg:px-8 bg-white dark:bg-background-dark">
+        <div class="max-w-7xl mx-auto">
+            <!-- Section Header -->
+            <div class="text-center mb-16">
+                <h2 class="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4 tr-only">Hizmetlerimiz</h2>
+                <h2 class="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4 en-only">Our Services</h2>
+                <p class="text-lg text-gray-600 dark:text-gray-400 tr-only">Modern teknolojilerle ihtiyaçlarınıza özel çözümler</p>
+                <p class="text-lg text-gray-600 dark:text-gray-400 en-only">Custom solutions with modern technology</p>
+            </div>
+            
+            <!-- Bento Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Row 1: 1x + 2x (sağda) -->
+                <!-- Service 2 -->
+                <div class="bg-gradient-to-br from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 p-8 rounded-2xl border border-purple-200 dark:border-purple-800 hover:-translate-y-2 hover:shadow-2xl transition-all duration-300 fade-in">
+                    <svg class="w-12 h-12 text-purple-600 mb-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 8.25h19.5M2.25 9h19.5m-16.5 5.25h6m-6 2.25h3m-3.75 3h15a2.25 2.25 0 002.25-2.25V6.75A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25v10.5A2.25 2.25 0 004.5 19.5z"></path>
+                    </svg>
+                    <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-2 tr-only">Ödeme Sistemi Entegrasyonu</h3>
+                    <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-2 en-only">Payment System Integration</h3>
+                    <p class="text-sm text-gray-700 dark:text-gray-300 tr-only">Banka ve ödeme kuruluşlarıyla güvenli altyapı bağlantıları kuruyoruz.</p>
+                    <p class="text-sm text-gray-700 dark:text-gray-300 en-only">We build secure infrastructure connections with banks and payment providers.</p>
+                </div>
+                
+                <!-- Service 1 - 2x (SAĞDA) -->
+                <div class="lg:col-span-2 bg-gradient-to-br from-blue-50 to-cyan-50 dark:from-blue-900/20 dark:to-cyan-900/20 p-8 rounded-2xl border border-blue-200 dark:border-blue-800 hover:-translate-y-2 hover:shadow-2xl transition-all duration-300 fade-in stagger-1">
+                    <svg class="w-12 h-12 text-blue-600 mb-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z"></path>
+                    </svg>
+                    <h3 class="text-2xl font-bold text-gray-900 dark:text-white mb-3 tr-only">Kurumsal ERP Entegrasyonları</h3>
+                    <h3 class="text-2xl font-bold text-gray-900 dark:text-white mb-3 en-only">Enterprise ERP Integrations</h3>
+                    <p class="text-gray-700 dark:text-gray-300 tr-only">Logo, Mikro, SAP gibi ERP sistemlerinizi diğer yazılımlarla konuşturuyoruz.</p>
+                    <p class="text-gray-700 dark:text-gray-300 en-only">We integrate your ERP systems like Logo, Mikro, SAP with other software.</p>
+                </div>
+                
+                <!-- Row 2: 2x (solda) + 1x -->
+                <!-- Service 4 - 2x (SOLDA) -->
+                <div class="lg:col-span-2 bg-gradient-to-br from-orange-50 to-red-50 dark:from-orange-900/20 dark:to-red-900/20 p-8 rounded-2xl border border-orange-200 dark:border-orange-800 hover:-translate-y-2 hover:shadow-2xl transition-all duration-300 fade-in stagger-2">
+                    <svg class="w-12 h-12 text-orange-600 mb-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007zM8.625 10.5a.375.375 0 11-.75 0 .375.375 0 01.75 0zm7.5 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z"></path>
+                    </svg>
+                    <h3 class="text-2xl font-bold text-gray-900 dark:text-white mb-3 tr-only">E-Ticaret Sistem Entegrasyonu</h3>
+                    <h3 class="text-2xl font-bold text-gray-900 dark:text-white mb-3 en-only">E-Commerce System Integration</h3>
+                    <p class="text-gray-700 dark:text-gray-300 tr-only">E-ticaret sitenizi ERP, kargo ve ödeme sistemleriyle gerçek zamanlı senkronize ediyoruz.</p>
+                    <p class="text-gray-700 dark:text-gray-300 en-only">We synchronize your e-commerce site with ERP, cargo, and payment systems in real-time.</p>
+                </div>
+                
+                <!-- Service 3 -->
+                <div class="bg-gradient-to-br from-green-50 to-emerald-50 dark:from-green-900/20 dark:to-emerald-900/20 p-8 rounded-2xl border border-green-200 dark:border-green-800 hover:-translate-y-2 hover:shadow-2xl transition-all duration-300 fade-in stagger-3">
+                    <svg class="w-12 h-12 text-green-600 mb-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 1.5H8.25A2.25 2.25 0 006 3.75v16.5a2.25 2.25 0 002.25 2.25h7.5A2.25 2.25 0 0018 20.25V3.75a2.25 2.25 0 00-2.25-2.25H13.5m-3 0V3h3V1.5m-3 0h3m-3 18.75h3"></path>
+                    </svg>
+                    <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-2 tr-only">Mobil Uygulama Geliştirme</h3>
+                    <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-2 en-only">Mobile App Development</h3>
+                    <p class="text-sm text-gray-700 dark:text-gray-300 tr-only">iOS ve Android için native ve yüksek performanslı uygulamalar geliştiriyoruz.</p>
+                    <p class="text-sm text-gray-700 dark:text-gray-300 en-only">We develop native, high-performance apps for iOS and Android.</p>
+                </div>
+                
+                <!-- Row 3: 1x + 2x (sağda) -->
+                <!-- Service 6 -->
+                <div class="bg-gradient-to-br from-yellow-50 to-amber-50 dark:from-yellow-900/20 dark:to-amber-900/20 p-8 rounded-2xl border border-yellow-200 dark:border-yellow-800 hover:-translate-y-2 hover:shadow-2xl transition-all duration-300 fade-in stagger-4">
+                    <svg class="w-12 h-12 text-yellow-600 mb-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99"></path>
+                    </svg>
+                    <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-2 tr-only">Legacy Sistem Modernizasyonu</h3>
+                    <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-2 en-only">Legacy System Modernization</h3>
+                    <p class="text-sm text-gray-700 dark:text-gray-300 tr-only">Eski sistemlerinizi bozmadan, modern API'lerle güncelliyoruz.</p>
+                    <p class="text-sm text-gray-700 dark:text-gray-300 en-only">We modernize your legacy systems with modern APIs without disruption.</p>
+                </div>
+                
+                <!-- Service 5 - 2x (SAĞDA) -->
+                <div class="lg:col-span-2 bg-gradient-to-br from-indigo-50 to-blue-50 dark:from-indigo-900/20 dark:to-blue-900/20 p-8 rounded-2xl border border-indigo-200 dark:border-indigo-800 hover:-translate-y-2 hover:shadow-2xl transition-all duration-300 fade-in stagger-5">
+                    <svg class="w-12 h-12 text-indigo-600 mb-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 18.75a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 01-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h1.125c.621 0 1.129-.504 1.09-1.124a17.902 17.902 0 00-3.213-9.193 2.056 2.056 0 00-1.58-.86H14.25M16.5 18.75h-2.25m0-11.177v-.958c0-.568-.422-1.048-.987-1.106a48.554 48.554 0 00-10.026 0 1.106 1.106 0 00-.987 1.106v7.635m12-6.677v6.677m0 4.5v-4.5m0 0h-12"></path>
+                    </svg>
+                    <h3 class="text-2xl font-bold text-gray-900 dark:text-white mb-3 tr-only">Lojistik ve Kargo Takip Sistemleri</h3>
+                    <h3 class="text-2xl font-bold text-gray-900 dark:text-white mb-3 en-only">Logistics & Cargo Tracking Systems</h3>
+                    <p class="text-gray-700 dark:text-gray-300 tr-only">QR/barkod entegrasyonlu, gerçek zamanlı kargo takip ve rota optimizasyon çözümleri.</p>
+                    <p class="text-gray-700 dark:text-gray-300 en-only">Real-time cargo tracking and route optimization with QR/barcode integration.</p>
+                </div>
+                
+                <!-- Row 4: 2x (solda) + 1x -->
+                <!-- Service 7 - 2x (SOLDA) -->
+                <div class="lg:col-span-2 bg-gradient-to-br from-teal-50 to-cyan-50 dark:from-teal-900/20 dark:to-cyan-900/20 p-8 rounded-2xl border border-teal-200 dark:border-teal-800 hover:-translate-y-2 hover:shadow-2xl transition-all duration-300 fade-in stagger-6">
+                    <svg class="w-12 h-12 text-teal-600 mb-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 013 19.875v-6.75zM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V8.625zM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V4.125z"></path>
+                    </svg>
+                    <h3 class="text-2xl font-bold text-gray-900 dark:text-white mb-3 tr-only">Finansal Raporlama ve Dashboard</h3>
+                    <h3 class="text-2xl font-bold text-gray-900 dark:text-white mb-3 en-only">Financial Reporting & Dashboard</h3>
+                    <p class="text-gray-700 dark:text-gray-300 tr-only">Verilerinizi anlamlandıran, özel finansal dashboard ve raporlama sistemleri.</p>
+                    <p class="text-gray-700 dark:text-gray-300 en-only">Custom financial dashboards and reporting systems that make sense of your data.</p>
+                </div>
+                
+                <!-- Service 8 -->
+                <div class="bg-gradient-to-br from-pink-50 to-rose-50 dark:from-pink-900/20 dark:to-rose-900/20 p-8 rounded-2xl border border-pink-200 dark:border-pink-800 hover:-translate-y-2 hover:shadow-2xl transition-all duration-300 fade-in stagger-1">
+                    <svg class="w-12 h-12 text-pink-600 mb-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M17.25 6.75L22.5 12l-5.25 5.25m-10.5 0L1.5 12l5.25-5.25m7.5-3l-4.5 16.5"></path>
+                    </svg>
+                    <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-2 tr-only">API ve Mikroservis Mimari</h3>
+                    <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-2 en-only">API & Microservice Architecture</h3>
+                    <p class="text-sm text-gray-700 dark:text-gray-300 tr-only">Ölçeklenebilir, yüksek performanslı API ve mikroservis altyapıları kuruyoruz.</p>
+                    <p class="text-sm text-gray-700 dark:text-gray-300 en-only">We build scalable, high-performance API and microservice infrastructures.</p>
+                </div>
+                
+                <!-- Row 5: 1x + 1x + 1x (son 3 kart) -->
+                <!-- Service 9 -->
+                <div class="bg-gradient-to-br from-violet-50 to-purple-50 dark:from-violet-900/20 dark:to-purple-900/20 p-8 rounded-2xl border border-violet-200 dark:border-violet-800 hover:-translate-y-2 hover:shadow-2xl transition-all duration-300 fade-in stagger-2">
+                    <svg class="w-12 h-12 text-violet-600 mb-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 15a4.5 4.5 0 004.5 4.5H18a3.75 3.75 0 001.332-7.257 3 3 0 00-3.758-3.848 5.25 5.25 0 00-10.233 2.33A4.502 4.502 0 002.25 15z"></path>
+                    </svg>
+                    <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-2 tr-only">Bulut Migrasyon ve DevOps</h3>
+                    <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-2 en-only">Cloud Migration & DevOps</h3>
+                    <p class="text-sm text-gray-700 dark:text-gray-300 tr-only">Mevcut sistemlerinizi AWS cloud'a taşıyor, modern DevOps süreçleri kuruyoruz.</p>
+                    <p class="text-sm text-gray-700 dark:text-gray-300 en-only">We migrate your systems to AWS cloud and establish modern DevOps processes.</p>
+                </div>
+                
+                <!-- Service 10 -->
+                <div class="bg-gradient-to-br from-slate-50 to-gray-50 dark:from-slate-900/20 dark:to-gray-900/20 p-8 rounded-2xl border border-slate-200 dark:border-slate-800 hover:-translate-y-2 hover:shadow-2xl transition-all duration-300 fade-in stagger-3">
+                    <svg class="w-12 h-12 text-slate-600 mb-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z"></path>
+                    </svg>
+                    <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-2 tr-only">Veri Güvenliği ve KVKK</h3>
+                    <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-2 en-only">Data Security & GDPR</h3>
+                    <p class="text-sm text-gray-700 dark:text-gray-300 tr-only">Veri güvenliği odaklı, KVKK ve GDPR uyumlu yazılım çözümleri sunuyoruz.</p>
+                    <p class="text-sm text-gray-700 dark:text-gray-300 en-only">We provide data security-focused, GDPR and KVKK compliant software solutions.</p>
+                </div>
+                
+                <!-- Service 11 -->
+                <div class="bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 p-8 rounded-2xl border border-blue-200 dark:border-blue-800 hover:-translate-y-2 hover:shadow-2xl transition-all duration-300 fade-in stagger-4">
+                    <svg class="w-12 h-12 text-blue-600 mb-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M14.25 9.75L16.5 12l-2.25 2.25m-4.5 0L7.5 12l2.25-2.25M6 20.25h12A2.25 2.25 0 0020.25 18V6A2.25 2.25 0 0018 3.75H6A2.25 2.25 0 003.75 6v12A2.25 2.25 0 006 20.25z"></path>
+                    </svg>
+                    <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-2 tr-only">Özel Yazılım Geliştirme</h3>
+                    <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-2 en-only">Custom Software Development</h3>
+                    <p class="text-sm text-gray-700 dark:text-gray-300 tr-only">İhtiyacınıza özel, sıfırdan yazılım çözümleri ve digital product development.</p>
+                    <p class="text-sm text-gray-700 dark:text-gray-300 en-only">Custom, from-scratch software solutions and digital product development tailored to your needs.</p>
+                </div>
+            </div>
+                <!-- Service 1 - 2x width -->
+                
+                
+                
+            </div>
+        </div>
+    </section>
+
+    <!-- WHY CHOOSE US SECTION -->
+    <section class="py-20 px-4 sm:px-6 lg:px-8 bg-background-light dark:bg-background-dark/50">
+        <div class="max-w-7xl mx-auto">
+            <!-- Section Header -->
+            <div class="text-center mb-16">
+                <h2 class="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4 tr-only">Neden BB Solutions?</h2>
+                <h2 class="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4 en-only">Why BB Solutions?</h2>
+                <p class="text-lg text-gray-600 dark:text-gray-400 tr-only">Farklılığımızı ortaya koyan özellikler</p>
+                <p class="text-lg text-gray-600 dark:text-gray-400 en-only">What sets us apart</p>
+            </div>
+            
+            <!-- Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Feature 1 -->
+                <div class="bg-white dark:bg-background-dark p-8 rounded-xl border border-gray-200 dark:border-gray-800 hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+                    <div class="flex items-center justify-center h-12 w-12 rounded-lg bg-primary/10 mb-6">
+                        <svg class="text-primary w-6 h-6" fill="currentColor" viewBox="0 0 256 256">
+                            <path d="M69.12,94.15,28.5,128l40.62,33.85a8,8,0,1,1-10.24,12.29l-48-40a8,8,0,0,1,0-12.29l48-40a8,8,0,0,1,10.24,12.3Zm176,27.7-48-40a8,8,0,1,0-10.24,12.3L227.5,128l-40.62,33.85a8,8,0,1,0,10.24,12.29l48-40a8,8,0,0,0,0-12.29Z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-3 tr-only">Yüksek Framework Adaptasyonu</h3>
+                    <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-3 en-only">High Framework Adaptability</h3>
+                    <p class="text-gray-600 dark:text-gray-400 tr-only">React mi, Vue mu? Angular mi? Siz söyleyin, biz geliştiririz. Teknoloji stackinize uyum sağlıyoruz.</p>
+                    <p class="text-gray-600 dark:text-gray-400 en-only">React, Vue, or Angular? You name it, we build it. We adapt to your technology stack.</p>
+                </div>
+                
+                <!-- Feature 2 -->
+                <div class="bg-white dark:bg-background-dark p-8 rounded-xl border border-gray-200 dark:border-gray-800 hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+                    <div class="flex items-center justify-center h-12 w-12 rounded-lg bg-primary/10 mb-6">
+                        <svg class="text-primary w-6 h-6" fill="currentColor" viewBox="0 0 256 256">
+                            <path d="M128,24a104,104,0,1,0,104,104A104.11,104.11,0,0,0,128,24Zm0,192a88,88,0,1,1,88-88A88.1,88.1,0,0,1,128,216Zm64-88a8,8,0,0,1-8,8H128a8,8,0,0,1-8-8V72a8,8,0,0,1,16,0v48h48A8,8,0,0,1,192,128Z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-3 tr-only">Hızlı Teslimat</h3>
+                    <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-3 en-only">Fast Delivery</h3>
+                    <p class="text-gray-600 dark:text-gray-400 tr-only">Küçük projeler 2-6 haftada. Hızlı hareket ediyoruz, kaliteden ödün vermeden.</p>
+                    <p class="text-gray-600 dark:text-gray-400 en-only">Small projects in 2-6 weeks. We move fast without compromising quality.</p>
+                </div>
+                
+                <!-- Feature 3 -->
+                <div class="bg-white dark:bg-background-dark p-8 rounded-xl border border-gray-200 dark:border-gray-800 hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+                    <div class="flex items-center justify-center h-12 w-12 rounded-lg bg-primary/10 mb-6">
+                        <svg class="text-primary w-6 h-6" fill="currentColor" viewBox="0 0 256 256">
+                            <path d="M103.77,185.94C103.38,187.49,93.63,224,40,224a8,8,0,0,1-8-8c0-53.63,36.51-63.38,38.06-63.77a8,8,0,0,1,3.88,15.53c-.9.25-22.42,6.54-25.56,39.86C81.7,204.48,88,183,88.26,182a8,8,0,0,1,15.51,4Zm93-67.4L192,123.31v58.33A15.91,15.91,0,0,1,187.32,193L153,227.3A15.91,15.91,0,0,1,141.7,232a16.11,16.11,0,0,1-5.1-.83,15.94,15.94,0,0,1-10.78-12.92l-5.37-38.49L76.24,135.55l-38.47-5.37A16,16,0,0,1,28.7,103L63,68.68A15.91,15.91,0,0,1,74.36,64h58.33l4.77-4.77c26.68-26.67,58.83-27.82,71.41-27.07a16,16,0,0,1,15,15C224.6,59.71,223.45,91.86,196.78,118.54Z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-3 tr-only">End-to-End Çözüm</h3>
+                    <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-3 en-only">End-to-End Solutions</h3>
+                    <p class="text-gray-600 dark:text-gray-400 tr-only">Problem analizinden deployment'a kadar. Tüm süreci yönetiyoruz.</p>
+                    <p class="text-gray-600 dark:text-gray-400 en-only">From problem analysis to deployment. We manage the entire process.</p>
+                </div>
+                
+                <!-- Feature 4 -->
+                <div class="bg-white dark:bg-background-dark p-8 rounded-xl border border-gray-200 dark:border-gray-800 hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+                    <div class="flex items-center justify-center h-12 w-12 rounded-lg bg-primary/10 mb-6">
+                        <svg class="text-primary w-6 h-6" fill="currentColor" viewBox="0 0 256 256">
+                            <path d="M152,120h-16V56h8a32,32,0,0,1,32,32,8,8,0,0,0,16,0,48.05,48.05,0,0,0-48-48h-8V24a8,8,0,0,0-16,0V40h-8a48,48,0,0,0,0,96h8v64h-16a32,32,0,0,1-32-32,8,8,0,0,0-16,0,48.05,48.05,0,0,0,48,48h16v16a8,8,0,0,0,16,0V216h16a48,48,0,0,0,0-96Zm-40,0a32,32,0,0,1,0-64h8v64Zm40,80h-16V136h16a32,32,0,0,1,0,64Z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-3 tr-only">Şeffaf ve Uygun Fiyatlandırma</h3>
+                    <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-3 en-only">Transparent & Fair Pricing</h3>
+                    <p class="text-gray-600 dark:text-gray-400 tr-only">Sabit fiyat veya aylık kontrat. Gizli maliyet yok, sürpriz yok.</p>
+                    <p class="text-gray-600 dark:text-gray-400 en-only">Fixed price or monthly contracts. No hidden costs, no surprises.</p>
+                </div>
+                
+                <!-- Feature 5 -->
+                <div class="bg-white dark:bg-background-dark p-8 rounded-xl border border-gray-200 dark:border-gray-800 hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+                    <div class="flex items-center justify-center h-12 w-12 rounded-lg bg-primary/10 mb-6">
+                        <svg class="text-primary w-6 h-6" fill="currentColor" viewBox="0 0 256 256">
+                            <path d="M208,40H48A16,16,0,0,0,32,56v58.78c0,89.61,75.82,119.34,91,124.39a15.53,15.53,0,0,0,10,0c15.2-5.05,91-34.78,91-124.39V56A16,16,0,0,0,208,40Zm0,74.79c0,78.42-66.35,104.62-80,109.18-13.53-4.51-80-30.69-80-109.18V56H208ZM82.34,141.66a8,8,0,0,1,11.32-11.32L112,148.68l50.34-50.34a8,8,0,0,1,11.32,11.32l-56,56a8,8,0,0,1-11.32,0Z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-3 tr-only">Güvenlik Odaklı</h3>
+                    <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-3 en-only">Security-Focused</h3>
+                    <p class="text-gray-600 dark:text-gray-400 tr-only">Her satır kod güvenlik review'den geçer. OWASP standartları, penetration testing.</p>
+                    <p class="text-gray-600 dark:text-gray-400 en-only">Every line of code goes through security review. OWASP standards, penetration testing.</p>
+                </div>
+                
+                <!-- Feature 6 -->
+                <div class="bg-white dark:bg-background-dark p-8 rounded-xl border border-gray-200 dark:border-gray-800 hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+                    <div class="flex items-center justify-center h-12 w-12 rounded-lg bg-primary/10 mb-6">
+                        <svg class="text-primary w-6 h-6" fill="currentColor" viewBox="0 0 256 256">
+                            <path d="M227.31,73.37,182.63,28.68a16,16,0,0,0-22.63,0L36.69,152A15.86,15.86,0,0,0,32,163.31V208a16,16,0,0,0,16,16H92.69A15.86,15.86,0,0,0,104,219.31L227.31,96a16,16,0,0,0,0-22.63ZM92.69,208H48V163.31l88-88L180.69,120ZM192,108.68,147.31,64l24-24L216,84.68Z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-3 tr-only">Esnek Çalışma</h3>
+                    <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-3 en-only">Flexible Workflow</h3>
+                    <p class="text-gray-600 dark:text-gray-400 tr-only">Agile mi, Waterfall mu? Jira mı, Linear mı? Size uygun çalışıyoruz.</p>
+                    <p class="text-gray-600 dark:text-gray-400 en-only">Agile or Waterfall? Jira or Linear? We work the way you prefer.</p>
+                </div>
+                
+                <!-- Feature 7 -->
+                <div class="lg:col-span-3 bg-white dark:bg-background-dark p-8 rounded-xl border border-gray-200 dark:border-gray-800 hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+                    <div class="flex items-center justify-center h-12 w-12 rounded-lg bg-primary/10 mb-6 mx-auto">
+                        <svg class="text-primary w-6 h-6" fill="currentColor" viewBox="0 0 256 256">
+                            <path d="M225.86,102.82c-3.77-3.94-7.67-8-9.14-11.57-1.36-3.27-1.44-8.69-1.52-13.94-.15-9.76-.31-20.82-8-28.51s-18.75-7.85-28.51-8c-5.25-.08-10.67-.16-13.94-1.52-3.56-1.47-7.63-5.37-11.57-9.14C146.28,23.51,138.44,16,128,16s-18.27,7.51-25.18,14.14c-3.94,3.77-8,7.67-11.57,9.14C88,40.64,82.56,40.72,77.31,40.8c-9.76.15-20.82.31-28.51,8S41,67.55,40.8,77.31c-.08,5.25-.16,10.67-1.52,13.94-1.47,3.56-5.37,7.63-9.14,11.57C23.51,109.72,16,117.56,16,128s7.51,18.27,14.14,25.18c3.77,3.94,7.67,8,9.14,11.57,1.36,3.27,1.44,8.69,1.52,13.94.15,9.76.31,20.82,8,28.51s18.75,7.85,28.51,8c5.25.08,10.67.16,13.94,1.52,3.56,1.47,7.63,5.37,11.57,9.14C109.72,232.49,117.56,240,128,240s18.27-7.51,25.18-14.14c3.94-3.77,8-7.67,11.57-9.14,3.27-1.36,8.69-1.44,13.94-1.52,9.76-.15,20.82-.31,28.51-8s7.85-18.75,8-28.51c.08-5.25.16-10.67,1.52-13.94,1.47-3.56,5.37-7.63,9.14-11.57C232.49,146.28,240,138.44,240,128S232.49,109.73,225.86,102.82Zm-11.55,39.29c-4.79,5-9.75,10.17-12.38,16.52-2.52,6.1-2.63,13.07-2.73,19.82-.1,7-.21,14.33-3.32,17.43s-10.39,3.22-17.43,3.32c-6.75.1-13.72.21-19.82,2.73-6.35,2.63-11.52,7.59-16.52,12.38S132,224,128,224s-9.15-4.92-14.11-9.69-10.17-9.75-16.52-12.38c-6.1-2.52-13.07-2.63-19.82-2.73-7-.1-14.33-.21-17.43-3.32s-3.22-10.39-3.32-17.43c-.1-6.75-.21-13.72-2.73-19.82-2.63-6.35-7.59-11.52-12.38-16.52S32,132,32,128s4.92-9.15,9.69-14.11,9.75-10.17,12.38-16.52c2.52-6.1,2.63-13.07,2.73-19.82.1-7,.21-14.33,3.32-17.43S70.51,56.9,77.55,56.8c6.75-.1,13.72-.21,19.82-2.73,6.35-2.63,11.52-7.59,16.52-12.38S124,32,128,32s9.15,4.92,14.11,9.69,10.17,9.75,16.52,12.38c6.1,2.52,13.07,2.63,19.82,2.73,7,.1,14.33.21,17.43,3.32s3.22,10.39,3.32,17.43c.1,6.75.21,13.72,2.73,19.82,2.63,6.35,7.59,11.52,12.38,16.52S224,124,224,128,219.08,137.15,214.31,142.11ZM173.66,98.34a8,8,0,0,1,0,11.32l-56,56a8,8,0,0,1-11.32,0l-24-24a8,8,0,0,1,11.32-11.32L112,148.69l50.34-50.35A8,8,0,0,1,173.66,98.34Z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-3 text-center tr-only">Regulasyon Uyumluluğu</h3>
+                    <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-3 text-center en-only">Regulatory Compliance</h3>
+                    <p class="text-gray-600 dark:text-gray-400 text-center tr-only">KVKK, finans, sağlık - gerekli tüm regulasyonlara uygun sistemler geliştiriyoruz.</p>
+                    <p class="text-gray-600 dark:text-gray-400 text-center en-only">GDPR, finance, healthcare - we build systems compliant with all necessary regulations.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TECH & APPROACH SECTION -->
+    <section class="py-20 px-4 sm:px-6 lg:px-8 bg-white dark:bg-background-dark">
+        <div class="max-w-7xl mx-auto">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+                <!-- Modern Technology -->
+                <div>
+                    <h2 class="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-6 tr-only">Modern Teknoloji</h2>
+                    <h2 class="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-6 en-only">Modern Technology</h2>
+                    <p class="text-lg text-gray-600 dark:text-gray-400 mb-8 tr-only">
+                        Legacy kod yok, teknik borç yok. 2025 standartlarıyla, modern teknolojilerle geliştirme yapıyoruz. Sizin mevcut teknolojinize de uyum sağlayabiliyoruz.
+                    </p>
+                    <p class="text-lg text-gray-600 dark:text-gray-400 mb-8 en-only">
+                        No legacy code, no technical debt. We develop with 2025 standards and modern technologies. We can also adapt to your existing technology stack.
+                    </p>
+                    
+                    <!-- Tech Badges -->
+                    <div class="grid grid-cols-2 gap-4">
+                        
+                    </div>
+                </div>
+                
+                <!-- Our Approach -->
+                <div>
+                    <h2 class="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-6 tr-only">Yaklaşımımız</h2>
+                    <h2 class="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-6 en-only">Our Approach</h2>
+                    
+                    <!-- Steps -->
+                    <div class="space-y-6">
+                        <div class="flex items-start gap-4">
+                            <div class="flex-shrink-0 w-12 h-12 rounded-full bg-primary flex items-center justify-center text-white font-bold">
+                                1
+                            </div>
+                            <div>
+                                <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-1 tr-only">Analiz</h3>
+                                <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-1 en-only">Analysis</h3>
+                                <p class="text-gray-600 dark:text-gray-400 tr-only">Probleminizi derinlemesine anlıyoruz</p>
+                                <p class="text-gray-600 dark:text-gray-400 en-only">We deeply understand your problem</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-start gap-4">
+                            <div class="flex-shrink-0 w-12 h-12 rounded-full bg-primary flex items-center justify-center text-white font-bold">
+                                2
+                            </div>
+                            <div>
+                                <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-1 tr-only">Tasarım</h3>
+                                <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-1 en-only">Design</h3>
+                                <p class="text-gray-600 dark:text-gray-400 tr-only">Ölçeklenebilir mimari kuruyoruz</p>
+                                <p class="text-gray-600 dark:text-gray-400 en-only">We build scalable architecture</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-start gap-4">
+                            <div class="flex-shrink-0 w-12 h-12 rounded-full bg-primary flex items-center justify-center text-white font-bold">
+                                3
+                            </div>
+                            <div>
+                                <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-1 tr-only">Geliştirme</h3>
+                                <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-1 en-only">Development</h3>
+                                <p class="text-gray-600 dark:text-gray-400 tr-only">Agile sprint'lerle ilerliyoruz</p>
+                                <p class="text-gray-600 dark:text-gray-400 en-only">We progress with agile sprints</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-start gap-4">
+                            <div class="flex-shrink-0 w-12 h-12 rounded-full bg-primary flex items-center justify-center text-white font-bold">
+                                4
+                            </div>
+                            <div>
+                                <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-1">Deploy</h3>
+                                <p class="text-gray-600 dark:text-gray-400 tr-only">Production-ready, güvenli sistemler</p>
+                                <p class="text-gray-600 dark:text-gray-400 en-only">Production-ready, secure systems</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CONTACT FORM SECTION -->
+    <section id="contact" class="py-20 px-4 sm:px-6 lg:px-8 bg-background-light dark:bg-background-dark/50">
+        <div class="max-w-4xl mx-auto">
+            <!-- Section Header -->
+            <div class="text-center mb-12">
+                <h2 class="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4 tr-only">İletişime Geçin</h2>
+                <h2 class="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4 en-only">Get In Touch</h2>
+                <p class="text-lg text-gray-600 dark:text-gray-400 tr-only">Projeniz hakkında konuşalım</p>
+                <p class="text-lg text-gray-600 dark:text-gray-400 en-only">Let's talk about your project</p>
+            </div>
+            
+            <div class="bg-white dark:bg-background-dark p-8 md:p-12 rounded-2xl shadow-xl border border-gray-200 dark:border-gray-800">
+                <!-- Contact Info -->
+                <div class="mb-8 text-center">
+                    <div class="inline-flex items-center gap-2 text-primary mb-2">
+                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 256 256">
+                            <path d="M224,48H32a8,8,0,0,0-8,8V192a16,16,0,0,0,16,16H216a16,16,0,0,0,16-16V56A8,8,0,0,0,224,48ZM203.43,64,128,133.15,52.57,64ZM216,192H40V74.19l82.59,75.71a8,8,0,0,0,10.82,0L216,74.19V192Z"></path>
+                        </svg>
+                        <a href="mailto:info@bbsolutions.dev" class="font-semibold hover:underline">info@bbsolutions.dev</a>
+                    </div>
+                    <div class="text-sm text-gray-600 dark:text-gray-400">
+                        <span class="tr-only">İstanbul, Türkiye</span>
+                        <span class="en-only">Istanbul, Turkey</span>
+                    </div>
+                </div>
+                
+                <!-- Form -->
+                <form action="https://formspree.io/f/YOUR_FORM_ID" method="POST" class="space-y-6">
+                    <!-- Name & Email Row -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2 tr-only" for="name">Ad Soyad *</label>
+                            <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2 en-only" for="name">Full Name *</label>
+                            <input type="text" id="name" name="name" required class="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-primary focus:border-transparent transition">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2 tr-only" for="email">E-posta Adresi *</label>
+                            <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2 en-only" for="email">Email Address *</label>
+                            <input type="email" id="email" name="email" required class="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-primary focus:border-transparent transition">
+                        </div>
+                    </div>
+                    
+                    <!-- Phone & Company Row -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2 tr-only" for="phone">Telefon Numarası</label>
+                            <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2 en-only" for="phone">Phone Number</label>
+                            <input type="tel" id="phone" name="phone" class="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-primary focus:border-transparent transition">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2 tr-only" for="company">Şirket Adı</label>
+                            <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2 en-only" for="company">Company Name</label>
+                            <input type="text" id="company" name="company" class="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-primary focus:border-transparent transition">
+                        </div>
+                    </div>
+                    
+                    <!-- Message -->
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2 tr-only" for="message">Mesajınız *</label>
+                        <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2 en-only" for="message">Your Message *</label>
+                        <textarea id="message" name="message" required rows="5" class="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-primary focus:border-transparent transition resize-none"></textarea>
+                    </div>
+                    
+                    <!-- Submit Button -->
+                    <div class="text-center">
+                        <button type="submit" class="inline-flex items-center justify-center px-8 py-4 rounded-lg bg-primary text-white font-bold text-lg hover:bg-primary/90 focus:outline-none focus:ring-4 focus:ring-primary/50 transition-all duration-300 hover:scale-105 shadow-lg">
+                            <span class="tr-only">Mesaj Gönder</span>
+                            <span class="en-only">Send Message</span>
+                        </button>
+                        <p class="text-xs text-gray-500 dark:text-gray-400 mt-4 tr-only">
+                            Gizliliğinize saygı duyuyoruz. Spam göndermiyoruz.
+                        </p>
+                        <p class="text-xs text-gray-500 dark:text-gray-400 mt-4 en-only">
+                            We respect your privacy. No spam, ever.
+                        </p>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="bg-gray-900 text-white py-12 px-4">
+        <div class="max-w-7xl mx-auto text-center">
+            <div class="mb-4">
+                <svg class="h-10 w-10 mx-auto text-primary mb-3" fill="none" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M13.8261 17.4264C16.7203 18.1174 20.2244 18.5217 24 18.5217C27.7756 18.5217 31.2797 18.1174 34.1739 17.4264C36.9144 16.7722 39.9967 15.2331 41.3563 14.1648L24.8486 40.6391C24.4571 41.267 23.5429 41.267 23.1514 40.6391L6.64374 14.1648C8.00331 15.2331 11.0856 16.7722 13.8261 17.4264Z" fill="currentColor"/>
+                    <path clip-rule="evenodd" d="M39.998 12.236C39.9944 12.2537 39.9875 12.2845 39.9748 12.3294C39.9436 12.4399 39.8949 12.5741 39.8346 12.7175C39.8168 12.7597 39.7989 12.8007 39.7813 12.8398C38.5103 13.7113 35.9788 14.9393 33.7095 15.4811C30.9875 16.131 27.6413 16.5217 24 16.5217C20.3587 16.5217 17.0125 16.131 14.2905 15.4811C12.0012 14.9346 9.44505 13.6897 8.18538 12.8168C8.17384 12.7925 8.16216 12.767 8.15052 12.7408C8.09919 12.6249 8.05721 12.5114 8.02977 12.411C8.00356 12.3152 8.00039 12.2667 8.00004 12.2612C8.00004 12.261 8 12.2607 8.00004 12.2612C8.00004 12.2359 8.0104 11.9233 8.68485 11.3686C9.34546 10.8254 10.4222 10.2469 11.9291 9.72276C14.9242 8.68098 19.1919 8 24 8C28.8081 8 33.0758 8.68098 36.0709 9.72276C37.5778 10.2469 38.6545 10.8254 39.3151 11.3686C39.9006 11.8501 39.9857 12.1489 39.998 12.236Z" fill="currentColor" fill-rule="evenodd"/>
+                </svg>
+                <p class="text-lg font-bold">BB Solutions</p>
+                <p class="text-sm text-gray-400 mt-1 tr-only">Hızlı, Atik, Güvenli</p>
+                <p class="text-sm text-gray-400 mt-1 en-only">Fast, Agile, Secure</p>
+            </div>
+            
+            <div class="border-t border-gray-800 pt-8 mt-8">
+                <p class="text-sm text-gray-400 tr-only">
+                    © 2025 BB Solutions. Tüm hakları saklıdır. | İstanbul, Türkiye
+                </p>
+                <p class="text-sm text-gray-400 en-only">
+                    © 2025 BB Solutions. All rights reserved. | Istanbul, Turkey
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script>
+        // Language Toggle
+        function toggleLanguage() {
+            const html = document.documentElement;
+            const currentLang = html.getAttribute('lang');
+            const newLang = currentLang === 'tr' ? 'en' : 'tr';
+            html.setAttribute('lang', newLang);
+            
+            // Update meta tags
+            if (newLang === 'en') {
+                document.title = 'BB Solutions - Real Solutions to Your Digital Problems';
+                document.querySelector('meta[name="description"]').setAttribute('content', 
+                    'Software development with modern technology. Dashboard, mobile apps, system integration, automation solutions. Istanbul.');
+            } else {
+                document.title = 'BB Solutions - Dijital Problemlerinize Gerçek Çözümler';
+                document.querySelector('meta[name="description"]').setAttribute('content', 
+                    'Modern teknolojilerle yazılım geliştirme. Dashboard, mobil uygulama, sistem entegrasyonu, otomasyon çözümleri. İstanbul.');
+            }
+            
+            // Store preference
+            localStorage.setItem('preferredLanguage', newLang);
+        }
+        
+        // Load preferred language on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            const preferredLang = localStorage.getItem('preferredLanguage');
+            if (preferredLang && preferredLang !== 'tr') {
+                toggleLanguage();
+            }
+            
+            // Trigger fade-in animations
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, { threshold: 0.1 });
+            
+            document.querySelectorAll('.fade-in').forEach(el => {
+                observer.observe(el);
+            });
+        });
+        
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+        
+        // Form submission handling
+        const form = document.querySelector('form');
+        if (form) {
+            form.addEventListener('submit', function(e) {
+                const button = form.querySelector('button[type="submit"]');
+                const currentLang = document.documentElement.getAttribute('lang');
+                const originalText = button.innerHTML;
+                
+                button.disabled = true;
+                button.innerHTML = currentLang === 'tr' ? 'Gönderiliyor...' : 'Sending...';
+                
+                // FormSpree will handle the actual submission
+                // On success/error, FormSpree redirects or shows message
+            });
+        }
+    </script>
+
+</body>
+</html>
